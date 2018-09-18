@@ -129,7 +129,7 @@ tm_shape(london) +
   tm_facets(by = 'censusYear', ncol = 1) 
 ```
 
-A gif version of the map the above codes produces (see the [rmarkdown file for the gif code](HarmonisedCountryOfBirthDatasets.Rmd)):
+A gif version of the map the above codes produces (see the [rmarkdown file for the gif code](README.Rmd)):
 
 <img src="README_figs/london.gif" width="700" />
 
@@ -154,7 +154,7 @@ The 1991 LBS tables, however, have another issue: disclosure conditions mean tha
 
 The correct neighbour zones can be identified by comparing population counts between the LBS and SAS tables: SAS tables have the correct count where the LBS tables are set to zero; the correct neighbour zone can be identified by subtracting this count from the LBS population count table and checking for a match against its SAS value. The following map illustrates the result of this process for a zero-count zone in Glasgow, also illustrating how two or more zero-count zones are sometimes assigned to a single contiguous neighbour. This can mostly be done via script, though some odd mismatches needed tidying up by hand.
 
-<img src="README_figs/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="README_figs/glasgow_zerocountreassign.png" width="500" />
 
 The code for the reassigns is in the **code** folder, in three scripts: one for [Scotland](code/1991LBS_zeroCount_reassignment_Scotland.R), one for [England and Wales](code/1991LBS_zeroCount_reassignment_EnglandWales.R), and [another](code/createFinalGB_1991LBSzone_edit.R) that joins these two and does a little extra fixing. It won't work without a number of other files but is supplied to show workings. (Get in touch for more info, see email below.)
 
