@@ -23,7 +23,7 @@ Direct links to the files:
     -   [3 Census](data/countryofbirth/countryOfBirth_Scotland_3_Census.csv)
     -   [5 Census](data/countryofbirth/countryOfBirth_Scotland_5_Census.csv)
 
-Each CSV contains all Census years in long form.
+Each CSV contains all Census years in long form. To get them, either [clone the repo](https://git-scm.com/docs/git-clone) or follow the above links and right-click on the download button for download options.
 
 The CoBs available in these are:
 
@@ -129,7 +129,7 @@ tm_shape(london) +
   tm_facets(by = 'censusYear', ncol = 1) 
 ```
 
-A gif version of the map the above codes produces (see the [rmarkdown file for the gif code](README.Rmd)):
+A gif version of the map the above codes produces (see the [rmarkdown file for the gif code](https://raw.githubusercontent.com/DanOlner/HarmonisedCountryOfBirthDatasets/master/README.Rmd)):
 
 <img src="README_figs/london.gif" width="700" />
 
@@ -140,21 +140,23 @@ More detail
 
 The aim of this dataset is to maximise the number of country of birth categories while keeping them identical across Censuses. UK Census data provides tables for people's country of birth with digital access going back to 1971. (See below for more on original data sources.) But neither the geographical zones used **or** the CoB categories are consistent between Censuses. This dataset gives a consistent version, providing an identical geography and CoB category list between Censuses.
 
-The 'lowest common denominator' set of countries each Census has in common is used. The census with the fewest categories imposes its structure on others that may have a more detailed list. Both the 1971 and 1981 censuses contain a much smaller number - so harmonising across five censuses restricts the overall number. 1971 also has a rather colonial structure, with country groups categorised into Commonwealth groups.
+The 'lowest common denominator' set of countries each Census has in common is used. The Census with the fewest categories imposes its structure on others that may have a more detailed list. Both the 1971 and 1981 Censuses contain a much smaller number - so harmonising across five Censuses restricts the overall number. 1971 also has a rather colonial structure, with country groups categorised into Commonwealth groups.
 
 Assignment of countries has been made via a careful reading of the country of birth categories in the various Census definition documents. These have all been included as a zip file in the docs folder.
 
-Code is supplied that shows the workings. The code in [scotland\_3censusHarmonise](code/scotland_3censusHarmonise.R) is a good example. Where exact matches can be found across all three (once any differences in naming are dealt with) these are kept. For larger groups, a function re-assigns/sums according to column.
+Code is supplied that shows the workings. The code in [scotland\_3censusHarmonise](code/scotland_3censusHarmonise.R) is a good example. Where exact matches can be found across all three Censuses (once any differences in naming are dealt with) these are kept. For groups of countries, a function re-assigns/sums according to column.
 
 ### Altered geographical zones used for the dataset
 
-A quirk in how the 1991 Census reports country of birth led to the choice of geography. An altered version of 1991 wards (for England and Wales) and postcode sectors (for Scotland) is used. This is because the 1991 Census has SAS (small area statistics) and LBS (local base statistics) tables. The 1991 **LBS** tables - available at ward/pcs level - contain a much larger list of CoB categories than the SAS tables. As the name suggests, the SAS tables are for small areas, and have disclosure issues that reduced the number of CoBs. Using the LBS table makes it possible to create a larger list of CoBs for 1991/2001 and 2011, and to make a consistent 5-Census dataset from 1971 (though with far fewer categories).
+A quirk in how the 1991 Census reports country of birth led to the choice of geography. An altered version of 1991 wards (for England and Wales) and postcode sectors (for Scotland) is used. The 1991 Census has SAS (small area statistics) and LBS (local base statistics) tables. The 1991 **LBS** tables - available at ward/pcs level - contain a much larger list of CoB categories than the SAS tables. As the name suggests, the SAS tables are for small areas, and have disclosure issues that reduced the number of CoBs. Using the LBS table makes it possible to create a larger list of CoBs for 1991/2001 and 2011, and to make a consistent 5-Census dataset from 1971 (though with far fewer categories).
 
 The 1991 LBS tables, however, have another issue: disclosure conditions mean that postcode sectors with a population less than a thousand or household numbers lower than 320 have their counts set to zero. In the 1991 LBS tables, these zero counts have been added to contiguous zones[1] - this actually provides a way to address the problem. If the zero-count geographical boundary is merged with its contiguous neighbour where the counts have been re-assigned, a new larger boundary zone can be created and used instead.
 
-The correct neighbour zones can be identified by comparing population counts between the LBS and SAS tables: SAS tables have the correct count where the LBS tables are set to zero; the correct neighbour zone can be identified by subtracting this count from the LBS population count table and checking for a match against its SAS value. The following map illustrates the result of this process for a zero-count zone in Glasgow, also illustrating how two or more zero-count zones are sometimes assigned to a single contiguous neighbour. This can mostly be done via script, though some odd mismatches needed tidying up by hand.
+The correct neighbour zones can be identified by comparing population counts between the LBS and SAS tables: SAS tables have the correct count where the LBS tables are set to zero; the correct neighbour zone can be identified by subtracting this count from the LBS population count table and checking for a match against its SAS value. The following map illustrates the result of this process for some zero-count zones in Glasgow, also illustrating how two or more zero-count zones are sometimes assigned to a single contiguous neighbour. This can mostly be done via script, though some odd mismatches needed tidying up by hand.
 
 <img src="README_figs/glasgow_zerocountreassign.png" width="500" />
+
+Wards and postcode sectors are large enough that most smaller zones for 1971/81/2001/2011 fit inside. For overlapping zones, a simple area re-assign is used.
 
 The code for the reassigns is in the **code** folder, in three scripts: one for [Scotland](code/1991LBS_zeroCount_reassignment_Scotland.R), one for [England and Wales](code/1991LBS_zeroCount_reassignment_EnglandWales.R), and [another](code/createFinalGB_1991LBSzone_edit.R) that joins these two and does a little extra fixing. It won't work without a number of other files but is supplied to show workings. (Get in touch for more info, see email below.)
 
@@ -169,10 +171,16 @@ Data sources
 
 ### Country of birth / Census data
 
-### Geographies
+-   England/Wales/Scotland data up to 2001: [CASWEB](http://casweb.ukdataservice.ac.uk/).
+
+-   England and Wales 2011: [NOMIS](https://www.nomisweb.co.uk/census/2011).
+
+-   Scotland 2011: [Scotland's Census](http://www.scotlandscensus.gov.uk/).
+
+-   Geographies: [UK Data Service Borders](https://borders.ukdataservice.ac.uk/bds.html).
 
 ### Contact:
 
-Much of the included code is not pretty, but I've attempted to include everything necessary to be able to recreate the process I went through. If anyone does actually want to attempt to do this and gets stuck, please get in touch (dolner at gmail dot com).
+Much of the included code is not pretty, but I've attempted to include everything necessary to be able to recreate the process. If anyone does actually want to attempt to do this and gets stuck, please get in touch (dolner at gmail dot com).
 
-[1] Office of Population Censuses, 1992. 1991 census, definitions Great Britain. HMSO, London.
+[1] Office of Population Censuses, 1992. 1991 Census, definitions Great Britain. HMSO, London.
