@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+data_edits/
+data_longs/
+data_orig/
+local/
+GreatBritain_England_Wales/
+Scotland/
+1971to2011_CountryOfBirthCategories_Scotland_noRegionHeadings_allCols.csv
+*.shp
+*.prj
+*.dbf
+*.shx
