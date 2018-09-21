@@ -179,6 +179,8 @@ Data sources
 
 -   Geographies: [UK Data Service Borders](https://borders.ukdataservice.ac.uk/bds.html).
 
+All of these data sources are covered by the [Open Government License](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/), which allows adaptation of data sources.
+
 ### Contact:
 
 Much of the included code is not pretty, but I've attempted to include everything necessary to be able to recreate the process. If anyone does actually want to attempt to do this and gets stuck, please get in touch (dolner at gmail dot com).
