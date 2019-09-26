@@ -143,7 +143,6 @@ A gif version of the map the above codes produces (see the [rmarkdown file for t
 
 The aim of this dataset is to maximise the number of country of birth categories while keeping them identical across Censuses. UK Census data provides tables for people's country of birth with digital access going back to 1971. (See below for more on original data sources.) But neither the geographical zones used **or** the CoB categories are consistent between Censuses. This dataset gives a consistent version, providing an identical geography and CoB category list between Censuses.
 
-
 The 'lowest common denominator' set of countries each Census has in common is used. The Census with the fewest categories imposes its structure on others that may have a more detailed list. Both the 1971 and 1981 Censuses contain a much smaller number - so harmonising across five Censuses restricts the overall number. 1971 also has a rather colonial structure, with country groups categorised into Commonwealth groups.
 
 Assignment of countries has been made via a careful reading of the country of birth categories in the various Census definition documents. These have all been included as a zip file in the docs folder.
@@ -171,7 +170,7 @@ The code for the reassigns is in the **code** folder, in three scripts: one for 
 
 Because a bespoke geography is used, for any new data sources to match the CoB data geography, they also need to be assigned to this new geography before they can be linked. [5 Census data for **'economically active'**](data/economicallyactive/economicallyActive_GreatBritain_5_Census.csv) is included in the repo as an example, including a per-zone *% unemployed* column. The code for producing this data sheet [is included](code/econActive_CensusVariableProcessing.R). 
 
-The process requires an intersect geography for each Census year apart from 1991. These can be [downloaded in zip form from here]() and will unzip to ~2gb. As the script shows, 1991 reassignment only needs a record of what the original 91 LBS zones were. These are in the geography shapefile as the **merge** column. This contains a bar-separated list of any merged zones; the script uses this to sum them.
+The process requires an intersect geography for each Census year apart from 1991. These can be [downloaded in zip form from here](http://ubdc.gla.ac.uk/dataset/395a865d-ff06-4c05-9964-949b5097b845/resource/2ea76b98-4275-4e3e-959f-5b9ab167e042/download/greatbritain5censusintersects.zip) and will unzip to ~2gb. As the script shows, 1991 reassignment only needs a record of what the original 91 LBS zones were. These are in the geography shapefile as the **merge** column. This contains a bar-separated list of any merged zones; the script uses this to sum them.
 
 
 # Data sources

@@ -164,7 +164,7 @@ The code for the reassigns is in the **code** folder, in three scripts: one for 
 
 Because a bespoke geography is used, for any new data sources to match the CoB data geography, they also need to be assigned to this new geography before they can be linked. [5 Census data for **'economically active'**](data/economicallyactive/economicallyActive_GreatBritain_5_Census.csv) is included in the repo as an example, including a per-zone *% unemployed* column. The code for producing this data sheet [is included](code/econActive_CensusVariableProcessing.R).
 
-The process requires an intersect geography for each Census year apart from 1991. These can be [downloaded in zip form from here]() and will unzip to ~2gb. As the script shows, 1991 reassignment only needs a record of what the original 91 LBS zones were. These are in the geography shapefile as the **merge** column. This contains a bar-separated list of any merged zones; the script uses this to sum them.
+The process requires an intersect geography for each Census year apart from 1991. These can be [downloaded in zip form from here](http://ubdc.gla.ac.uk/dataset/395a865d-ff06-4c05-9964-949b5097b845/resource/2ea76b98-4275-4e3e-959f-5b9ab167e042/download/greatbritain5censusintersects.zip) and will unzip to ~2gb. As the script shows, 1991 reassignment only needs a record of what the original 91 LBS zones were. These are in the geography shapefile as the **merge** column. This contains a bar-separated list of any merged zones; the script uses this to sum them.
 
 Data sources
 ============
