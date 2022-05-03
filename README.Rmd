@@ -87,19 +87,18 @@ library(tidyverse)
 library(sf)
 library(tmap)
 
-#First Census year here is integer, need to tell read_csv to look past it.
-#(read_csv uses first 1000 rows to work out type, by default)
-gb5 <- read_csv('data/countryofbirth/countryOfBirth_GreatBritain_5_Census.csv', guess_max = 15000)
+#Includes counts for each country of birth per ward, for each Census from 1971 to 2011
+gb5 <- read_csv('data/countryofbirth/countryOfBirth_GreatBritain_5_Census.csv')
 
 #Make % zone proportions so we have percent of CoB per zone
 props <- gb5 %>%
-  mutate(rowsums = rowSums(select(.,England:`Rest of world`))) %>% 
-  mutate_at(vars(England:`Rest of world`), funs(  ((.)/rowsums)*100  )) %>% 
+  mutate(rowsums = rowSums(across(England:`Rest of world`))) %>% #Get total count of people per ward
+  mutate(across(England:`Rest of world`, ~((.)/rowsums)*100, .names = "percent_{.col}")) %>% #Covert each to percentage, keep original columns
   select(-rowsums)
 
-#Add a column for total of non-UK-born
+#Add a column for total percent of non-UK-born
 props <- props %>%
-  mutate(nonUK = `Irish Republic`+India+Pakistan+Europe+`Rest of world`)
+  mutate(nonUK = `percent_Irish Republic`+percent_India+percent_Pakistan+percent_Europe+`percent_Rest of world`)
 
 #Load shapefile
 #Unzip first if you haven't already
@@ -108,6 +107,7 @@ unzip('data/gb_shapefile/gb_shapefile.zip', exdir = 'data/gb_shapefile')
 zones <- st_read('data/gb_shapefile/gb_altered_wards_n_postcodesectors_w_lookup.shp')
 
 #Merge spatial zones with CoB data
+#If merging with spatial data, put spatial first to keep as sf
 join <- left_join(zones,props,by='zone')
 
 #Subset to London TTWA
@@ -115,7 +115,7 @@ london <- join %>% filter(ttwa == 'London')
 
 #facet map of London data for non-UK-born
 tm_shape(london) +
-  tm_polygons(col = 'nonUK', style = 'jenks', n = 12, palette = 'plasma') +
+  tm_polygons(col = 'nonUK', style = 'fisher', n = 12, palette = 'plasma') +
   tm_facets(by = 'censusYear', ncol = 1) 
 
 
